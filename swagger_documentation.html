@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Swagger UI</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.2.2/swagger-ui.css" >
+  <style>
+    html
+    {
+      box-sizing: border-box;
+      overflow: -moz-scrollbars-vertical;
+      overflow-y: scroll;
+    }
+    *,
+    *:before,
+    *:after
+    {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin:0;
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+
+<div id="swagger-ui"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.2.2/swagger-ui-bundle.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.2.2/swagger-ui-standalone-preset.js"> </script>
+<script>
+window.onload = function() {
+
+  var spec = {"basePath": "/api", "schemes": ["http"], "info": {"description": "This is simple REST service with two operations converting decimal number to Roman numeral or to hexadecimal number.", "version": "1.0-SNAPSHOT", "title": "RestServiceWithMaven"}, "host": "localhost:8181", "definitions": {"NumberModel": {"properties": {"convertedNumber": {"type": "string"}}}, "ErrorMessage": {"properties": {"errorMessage": {"type": "string"}}}}, "tags": [{"name": "hexadecimal", "description": "Converting decimal numbers to hexadecimal numbers"}, {"name": "roman", "description": "Converting decimal numbers (less than 4000) to Roman numerals"}], "paths": {"/roman/{number}": {"get": {"responses": {"400": {"headers": {}, "schema": {"$ref": "#/definitions/ErrorMessage"}, "description": "Bad Request"}, "200": {"headers": {}, "schema": {"$ref": "#/definitions/NumberModel"}, "description": "OK"}}, "consumes": [], "produces": ["application/json"], "summary": "Converts a given String to a Roman numeral, if this String represents a valid decimal number less than 4000. Other values will generate error message.", "parameters": [{"type": "string", "required": true, "in": "path", "name": "number"}], "tags": ["roman"]}}, "/hexadecimal/{number}": {"get": {"responses": {"400": {"headers": {}, "schema": {"$ref": "#/definitions/ErrorMessage"}, "description": "Bad Request"}, "200": {"headers": {}, "schema": {"$ref": "#/definitions/NumberModel"}, "description": "OK"}}, "consumes": [], "produces": ["application/json"], "summary": "Converts a given String to a hexadecimal number, if this String represents a valid decimal number.Other values will generate error message.", "parameters": [{"type": "string", "required": true, "in": "path", "name": "number"}], "tags": ["hexadecimal"]}}}, "swagger": "2.0"};
+
+  // Build a system
+  const ui = SwaggerUIBundle({
+    spec: spec,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+
+  window.ui = ui
+}
+</script>
+</body>
+
+</html>
