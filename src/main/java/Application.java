@@ -1,13 +1,6 @@
-/*
-import javax.ws.rs.ApplicationPath;
-
-@ApplicationPath("/api")
-public class Application extends javax.ws.rs.core.Application {
-}
-
-*/
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import resources.RomanNumberResource;
@@ -28,7 +21,6 @@ public class Application {
         jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.packages",
                 "resources");
-
 
         try {
             jettyServer.start();

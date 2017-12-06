@@ -3,6 +3,8 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Assert;
 import org.junit.Test;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
+
 import org.glassfish.jersey.server.ResourceConfig;
 import resources.RomanNumberResource;
 
@@ -45,10 +47,16 @@ public class NumConvServiseTest extends JerseyTest {
 
     protected  void makeUnitTest (String input, String expected, String urlPathPrefix) throws InterruptedException {
 
-        NumberModel model = target(urlPathPrefix + input )
-                .request().get(NumberModel.class);
-        String response = model.getConvertedNumber();
-        Assert.assertEquals(expected, response);
+        int status = target(urlPathPrefix + input ).request().get().getStatus();
+
+        if (expected.equals("Not a number!")) {
+            Assert.assertEquals( Response.Status.BAD_REQUEST.getStatusCode(), status);
+        } else  {
+            NumberModel model = target(urlPathPrefix + input ).request().get(NumberModel.class);
+            String response = model.getConvertedNumber();
+            Assert.assertEquals(Response.Status.OK.getStatusCode(), status);
+            Assert.assertEquals(expected, response);
+        }
 
     }
     protected  void test (String urlPathPrefix, String pathToDataFile ) throws InterruptedException {
